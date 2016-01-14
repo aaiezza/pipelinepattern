@@ -12,22 +12,21 @@ import com.ideaimpl.patterns.pipeline.Stage;
  */
 public class GetSumStage implements Stage
 {
-
     @Override
-    public void execute( final PipelineContext context )
+    public void execute( final PipelineContext _context )
     {
-        final NumberMagicContext nmContext = (NumberMagicContext) context;
-        final int [] numbers = nmContext.getInput();
+        final NumberMagicContext context = (NumberMagicContext) _context;
+        final int [] numbers = context.getInput();
         if ( numbers == null )
         {
             final BaseError error = new BaseError( "EMPTY_INPUT", "The input is an empty list",
                     null );
-            nmContext.addError( error );
+            context.addError( error );
         }
         int sum = 0;
         for ( final int number : numbers )
             sum += number;
-        nmContext.setOffset( sum );
-    }
+        context.setOffset( sum );
 
+    }
 }

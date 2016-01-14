@@ -17,16 +17,14 @@ import com.ideaimpl.patterns.pipeline.Stage;
 
 public class IncreaseValueStage implements Stage
 {
-
     @Override
-    public void execute( final PipelineContext context )
+    public void execute( final PipelineContext _context )
     {
-        final NumberMagicContext nmContext = (NumberMagicContext) context;
-        nmContext.setIncreasedValues( Arrays.copyOf( nmContext.getInput(),
-            nmContext.getInput().length ) );
-        final int [] numbers = nmContext.getIncreasedValues();
+        final NumberMagicContext context = (NumberMagicContext) _context;
+        context.setIncreasedValues( Arrays.copyOf( context.getInput(), context.getInput().length ) );
+        final int [] numbers = context.getIncreasedValues();
         for ( int i = 0; i < numbers.length; i++ )
-            numbers[i] += nmContext.getOffset();
+            numbers[i] += context.getOffset();
     }
 
 }

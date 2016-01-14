@@ -13,26 +13,26 @@ import com.ideaimpl.patterns.pipeline.Pipeline;
  * @author Benoy Antony (benoy@ideaimpl.com) (http://www.ideaimpl.com)
  *
  */
-
 public class NumberMagicWithSum
 {
+    private final Pipeline csPipeline = new CancellableSequentialPipeline();
 
-    private static final Pipeline S_PIPELINE = new CancellableSequentialPipeline();
-
-    static
     {
-        S_PIPELINE.addStage( new GetSumStage() );
-        S_PIPELINE.addStage( new IncreaseValueStage() );
-        S_PIPELINE.addStage( new SortStage() );
+        csPipeline.addStage( new GetSumStage() );
+        csPipeline.addStage( new IncreaseValueStage() );
+        csPipeline.addStage( new SortStage() );
     }
-
 
     public int [] doMagic( final int [] numbers )
     {
         final NumberMagicContext nmContext = new NumberMagicContext();
         nmContext.setInput( numbers );
-        S_PIPELINE.execute( nmContext );
+        csPipeline.execute( nmContext );
         return nmContext.getSortedValues();
     }
 
+    public Pipeline getPipeline()
+    {
+        return csPipeline;
+    }
 }

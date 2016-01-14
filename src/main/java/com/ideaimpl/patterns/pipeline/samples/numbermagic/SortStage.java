@@ -15,15 +15,13 @@ import com.ideaimpl.patterns.pipeline.Stage;
  */
 public class SortStage implements Stage
 {
-
     @Override
-    public void execute( final PipelineContext context )
+    public void execute( final PipelineContext _context )
     {
-        final NumberMagicContext nmContext = (NumberMagicContext) context;
-        final int [] sortedValues = Arrays.copyOf( nmContext.getIncreasedValues(),
-            nmContext.getIncreasedValues().length );
+        final NumberMagicContext context = (NumberMagicContext) _context;
+        final int [] sortedValues = Arrays.copyOf( context.getIncreasedValues(),
+            context.getIncreasedValues().length );
         Arrays.sort( sortedValues );
-        nmContext.setSortedValues( sortedValues );
+        context.setSortedValues( sortedValues );
     }
-
 }

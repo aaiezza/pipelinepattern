@@ -6,7 +6,7 @@ package com.ideaimpl.patterns.pipeline;
  * @author Benoy Antony (benoy@ideaimpl.com) (http://www.ideaimpl.com)
  *
  */
-
+@FunctionalInterface
 public interface Stage
 {
 
@@ -18,5 +18,5 @@ public interface Stage
      *            - context object which keeps shared state
      *
      * */
-    public void execute( PipelineContext context );
+    public <C extends PipelineContext> void execute( final C context );
 }
