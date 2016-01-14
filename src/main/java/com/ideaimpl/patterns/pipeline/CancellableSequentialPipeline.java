@@ -20,59 +20,11 @@ import java.util.concurrent.Executors;
  */
 public class CancellableSequentialPipeline implements Pipeline
 {
-
-    public class SequentialPipelineRunner implements Runnable
-    {
-
-        public void executeSequentialPipeline()
-        {
-            isFinished = false;
-            /* execute the stages */
-            for ( final Stage stage : stages )
-            {
-
-                stage.execute( context );
-
-                if ( isCancelled || context.getErrors() != null && !context.getErrors().isEmpty() )
-                    break;
-
-            }
-
-            if ( !isCancelled )
-            {
-                /* if any error occurred, execute the error stages */
-                if ( context.getErrors() != null && !context.getErrors().isEmpty() )
-                    for ( final Stage errorStage : errorStages )
-                        errorStage.execute( context );
-
-                // execute the final stages
-                for ( final Stage finalStage : finalStages )
-                    finalStage.execute( context );
-            }
-
-            isFinished = true;
-            synchronized ( CancellableSequentialPipeline.this )
-            {
-                // notify all waiting threads
-                CancellableSequentialPipeline.this.notifyAll();
-            }
-        }
-
-        @Override
-        public void run()
-        {
-            executeSequentialPipeline();
-        }
-
-    }
-
     private final static int  NUM_PARALLEL_THREADS = 1;
+
     private final List<Stage> stages               = new ArrayList<Stage>();
     private final List<Stage> errorStages          = new ArrayList<Stage>();
-
     private final List<Stage> finalStages          = new ArrayList<Stage>();
-
-    private PipelineContext   context;
 
     private volatile boolean  isCancelled;
 
@@ -113,9 +65,40 @@ public class CancellableSequentialPipeline implements Pipeline
     @Override
     public void execute( final PipelineContext context )
     {
-        this.context = context;
         executor = Executors.newFixedThreadPool( NUM_PARALLEL_THREADS );
-        executor.execute( new SequentialPipelineRunner() );
+        executor.execute( ( ) -> {
+            isFinished = false;
+            /* execute the stages */
+            for ( final Stage stage : stages )
+            {
+                stage.execute( context );
+
+                if ( isCancelled || context.getErrors() != null && !context.getErrors().isEmpty() )
+                    break;
+            }
+
+            if ( !isCancelled )
+            {
+                /* if any error occurred, execute the error stages */
+                if ( context.getErrors() != null && !context.getErrors().isEmpty() )
+                    for ( final Stage errorStage : errorStages )
+                        errorStage.execute( context );
+
+                // execute the final stages
+                for ( final Stage finalStage : finalStages )
+                    finalStage.execute( context );
+            }
+
+            isFinished = true;
+            synchronized ( CancellableSequentialPipeline.this )
+            {
+                // notify all waiting threads
+                CancellableSequentialPipeline.this.notifyAll();
+            }
+        } );
+
+        while ( !isFinished() )
+        {}
     }
 
     @Override
