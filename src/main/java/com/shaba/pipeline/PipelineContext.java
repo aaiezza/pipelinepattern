@@ -1,6 +1,6 @@
-package com.ideaimpl.patterns.pipeline;
+package com.shaba.pipeline;
 
-import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -12,9 +12,7 @@ import java.util.List;
  * @author Benoy Antony (benoy@ideaimpl.com) (http://www.ideaimpl.com)
  *
  */
-
 public interface PipelineContext
 {
-
-    public List<Error> getErrors();
+    public Stack<Error> getErrors();
 }

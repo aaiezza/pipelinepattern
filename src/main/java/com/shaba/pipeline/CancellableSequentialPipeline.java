@@ -1,4 +1,4 @@
-package com.ideaimpl.patterns.pipeline;
+package com.shaba.pipeline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,14 +42,12 @@ public class CancellableSequentialPipeline implements Pipeline
     public void addFinalStage( final Stage stage )
     {
         finalStages.add( stage );
-
     }
 
     @Override
     public void addStage( final Stage stage )
     {
         stages.add( stage );
-
     }
 
     @Override
@@ -84,6 +82,7 @@ public class CancellableSequentialPipeline implements Pipeline
                     for ( final Stage errorStage : errorStages )
                         errorStage.execute( context );
 
+
                 // execute the final stages
                 for ( final Stage finalStage : finalStages )
                     finalStage.execute( context );
@@ -99,6 +98,9 @@ public class CancellableSequentialPipeline implements Pipeline
 
         while ( !isFinished() )
         {}
+
+        if ( context.getErrors() != null && !context.getErrors().isEmpty() && errorStages.isEmpty() )
+            throw context.getErrors().peek().getRelatedException();
     }
 
     @Override
@@ -112,5 +114,4 @@ public class CancellableSequentialPipeline implements Pipeline
     {
         return isFinished;
     }
-
 }

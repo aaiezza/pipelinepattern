@@ -1,9 +1,9 @@
-package com.ideaimpl.patterns.pipeline.samples.numbermagic;
+package com.shaba.pipeline.samples.numbermagic;
 
 import java.util.Arrays;
 
-import com.ideaimpl.patterns.pipeline.PipelineContext;
-import com.ideaimpl.patterns.pipeline.Stage;
+import com.shaba.pipeline.PipelineContext;
+import com.shaba.pipeline.Stage;
 
 /**
  * A sample stage class to demonstrate the usage of Pipeline Pattern

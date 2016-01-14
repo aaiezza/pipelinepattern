@@ -1,8 +1,8 @@
-package com.ideaimpl.patterns.pipeline.samples.numbermagic;
+package com.shaba.pipeline.samples.numbermagic;
 
-import com.ideaimpl.patterns.pipeline.BaseError;
-import com.ideaimpl.patterns.pipeline.PipelineContext;
-import com.ideaimpl.patterns.pipeline.Stage;
+import com.shaba.pipeline.BaseError;
+import com.shaba.pipeline.PipelineContext;
+import com.shaba.pipeline.Stage;
 
 /**
  * A sample stage class to demonstrate the usage of Pipeline Pattern calculates
@@ -19,9 +19,9 @@ public class GetSumStage implements Stage
         final int [] numbers = context.getInput();
         if ( numbers == null )
         {
-            final BaseError error = new BaseError( "EMPTY_INPUT", "The input is an empty list",
-                    null );
+            final BaseError error = new BaseError( "EMPTY_INPUT", "The input is an empty list" );
             context.addError( error );
+            return;
         }
         int sum = 0;
         for ( final int number : numbers )

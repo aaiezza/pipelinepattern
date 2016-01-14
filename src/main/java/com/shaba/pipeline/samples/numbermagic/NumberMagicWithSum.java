@@ -1,7 +1,7 @@
-package com.ideaimpl.patterns.pipeline.samples.numbermagic;
+package com.shaba.pipeline.samples.numbermagic;
 
-import com.ideaimpl.patterns.pipeline.CancellableSequentialPipeline;
-import com.ideaimpl.patterns.pipeline.Pipeline;
+import com.shaba.pipeline.CancellableSequentialPipeline;
+import com.shaba.pipeline.Pipeline;
 
 /**
  * A sample client class to demonstrate the usage of Pipeline Pattern

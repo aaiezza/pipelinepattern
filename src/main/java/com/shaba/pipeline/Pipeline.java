@@ -1,4 +1,4 @@
-package com.ideaimpl.patterns.pipeline;
+package com.shaba.pipeline;
 
 /**
  * Pipeline holds a number of stages which will be executed.

@@ -1,4 +1,4 @@
-package com.ideaimpl.patterns.pipeline;
+package com.shaba.pipeline;
 
 /**
  * A basic work unit in the pipeline.
@@ -16,6 +16,7 @@ public interface Stage
      *
      * @param context
      *            - context object which keeps shared state
+     * @throws Exception
      *
      * */
     public <C extends PipelineContext> void execute( final C context );

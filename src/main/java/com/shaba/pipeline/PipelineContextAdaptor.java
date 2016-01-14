@@ -1,7 +1,6 @@
-package com.ideaimpl.patterns.pipeline;
+package com.shaba.pipeline;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 /**
  *
@@ -10,21 +9,19 @@ import java.util.List;
  * @author Benoy Antony (benoy@ideaimpl.com) (http://www.ideaimpl.com)
  *
  */
-
 public class PipelineContextAdaptor implements PipelineContext
 {
-
-    private final List<Error> m_errors = new ArrayList<Error>();
+    private final Stack<Error> errors = new Stack<Error>();
 
     public void addError( final Error e )
     {
-        m_errors.add( e );
+        errors.push( e );
     }
 
     @Override
-    public List<Error> getErrors()
+    public Stack<Error> getErrors()
     {
-        return m_errors;
+        return errors;
     }
 
 }

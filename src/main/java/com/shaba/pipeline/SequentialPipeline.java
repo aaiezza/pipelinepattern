@@ -1,4 +1,4 @@
-package com.ideaimpl.patterns.pipeline;
+package com.shaba.pipeline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,30 +18,29 @@ import java.util.List;
  */
 public class SequentialPipeline implements Pipeline
 {
-
-    private final List<Stage> m_stages      = new ArrayList<Stage>();
-    private final List<Stage> m_errorStages = new ArrayList<Stage>();
-    private final List<Stage> m_finalStages = new ArrayList<Stage>();
+    private final List<Stage> stages      = new ArrayList<Stage>();
+    private final List<Stage> errorStages = new ArrayList<Stage>();
+    private final List<Stage> finalStages = new ArrayList<Stage>();
 
     private boolean           isFinished;
 
     @Override
     public void addErrorStage( final Stage stage )
     {
-        m_errorStages.add( stage );
+        errorStages.add( stage );
     }
 
     @Override
     public void addFinalStage( final Stage stage )
     {
-        m_finalStages.add( stage );
+        finalStages.add( stage );
 
     }
 
     @Override
     public void addStage( final Stage stage )
     {
-        m_stages.add( stage );
+        stages.add( stage );
 
     }
 
@@ -56,7 +55,7 @@ public class SequentialPipeline implements Pipeline
     {
         isFinished = false;
         /* execute the stages */
-        for ( final Stage stage : m_stages )
+        for ( final Stage stage : stages )
         {
 
             stage.execute( context );
@@ -67,10 +66,10 @@ public class SequentialPipeline implements Pipeline
         }
         /* if any error occurred, execute the error stages */
         if ( context.getErrors() != null && !context.getErrors().isEmpty() )
-            for ( final Stage errorStage : m_errorStages )
+            for ( final Stage errorStage : errorStages )
                 errorStage.execute( context );
         // execute the final stages
-        for ( final Stage finalStage : m_finalStages )
+        for ( final Stage finalStage : finalStages )
             finalStage.execute( context );
 
         isFinished = true;

@@ -1,4 +1,4 @@
-package com.ideaimpl.patterns.pipeline.samples.numbermagic;
+package com.shaba.pipeline.samples.numbermagic;
 
 /**
  *
@@ -25,7 +25,7 @@ public class Sample
         System.out.print( "\n\rResult for NumberMagicWithProduct : " );
         for ( final int number : resultWithProduct )
             System.out.print( number + " " );
-        
+
         System.exit( 0 );
     }
 }
