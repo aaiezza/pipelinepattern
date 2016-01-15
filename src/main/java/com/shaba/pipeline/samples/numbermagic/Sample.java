@@ -8,7 +8,7 @@ package com.shaba.pipeline.samples.numbermagic;
  */
 public class Sample
 {
-    public static void main( final String [] args ) throws InterruptedException
+    public static void main( final String [] args ) throws Exception
     {
         final int [] numbers = { 25, 10, 20, 5 };
 

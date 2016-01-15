@@ -1,9 +1,9 @@
 package com.shaba.pipeline;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * The sequential pipeline executes the stage sequence imitating a try catch
@@ -20,17 +20,16 @@ import java.util.concurrent.Executors;
  */
 public class CancellableSequentialPipeline implements Pipeline
 {
-    private final static int  NUM_PARALLEL_THREADS = 1;
+    public final static int      NUM_PARALLEL_THREADS = 1;
 
-    private final List<Stage> stages               = new ArrayList<Stage>();
-    private final List<Stage> errorStages          = new ArrayList<Stage>();
-    private final List<Stage> finalStages          = new ArrayList<Stage>();
+    protected final Queue<Stage> stages               = new LinkedBlockingQueue<Stage>();
+    protected final Queue<Stage> errorStages          = new LinkedBlockingQueue<Stage>();
+    protected final Queue<Stage> finalStages          = new LinkedBlockingQueue<Stage>();
 
-    private volatile boolean  isCancelled;
+    protected volatile boolean   isCancelled;
+    protected volatile boolean   isFinished;
 
-    private volatile boolean  isFinished;
-
-    private ExecutorService   executor;
+    protected ExecutorService    executor;
 
     @Override
     public void addErrorStage( final Stage stage )
@@ -61,7 +60,7 @@ public class CancellableSequentialPipeline implements Pipeline
     }
 
     @Override
-    public void execute( final PipelineContext context )
+    public void execute( final PipelineContext context ) throws Exception
     {
         executor = Executors.newFixedThreadPool( NUM_PARALLEL_THREADS );
         executor.execute( ( ) -> {
@@ -69,7 +68,14 @@ public class CancellableSequentialPipeline implements Pipeline
             /* execute the stages */
             for ( final Stage stage : stages )
             {
-                stage.execute( context );
+                try
+                {
+                    stage.execute( context );
+                } catch ( Exception e )
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
 
                 if ( isCancelled || context.getErrors() != null && !context.getErrors().isEmpty() )
                     break;
@@ -80,12 +86,26 @@ public class CancellableSequentialPipeline implements Pipeline
                 /* if any error occurred, execute the error stages */
                 if ( context.getErrors() != null && !context.getErrors().isEmpty() )
                     for ( final Stage errorStage : errorStages )
-                        errorStage.execute( context );
+                        try
+                        {
+                            errorStage.execute( context );
+                        } catch ( Exception e1 )
+                        {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
 
 
                 // execute the final stages
                 for ( final Stage finalStage : finalStages )
-                    finalStage.execute( context );
+                    try
+                    {
+                        finalStage.execute( context );
+                    } catch ( Exception e )
+                    {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
             }
 
             isFinished = true;

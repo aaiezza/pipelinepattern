@@ -9,7 +9,7 @@ import java.util.Stack;
  * @author Benoy Antony (benoy@ideaimpl.com) (http://www.ideaimpl.com)
  *
  */
-public class PipelineContextAdaptor implements PipelineContext
+public abstract class PipelineContextAdaptor implements PipelineContext
 {
     private final Stack<Error> errors = new Stack<Error>();
 
@@ -23,5 +23,4 @@ public class PipelineContextAdaptor implements PipelineContext
     {
         return errors;
     }
-
 }

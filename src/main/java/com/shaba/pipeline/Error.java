@@ -13,5 +13,5 @@ public interface Error
      *
      * @return an Exception object which is related to the error scenario
      */
-    public RuntimeException getRelatedException();
+    public Exception getRelatedException();
 }

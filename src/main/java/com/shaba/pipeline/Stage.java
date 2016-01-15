@@ -19,5 +19,5 @@ public interface Stage
      * @throws Exception
      *
      * */
-    public <C extends PipelineContext> void execute( final C context );
+    public void execute( final PipelineContext context ) throws Exception;
 }

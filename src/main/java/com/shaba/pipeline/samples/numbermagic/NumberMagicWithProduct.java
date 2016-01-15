@@ -23,7 +23,7 @@ public class NumberMagicWithProduct
         csPipeline.addStage( new SortStage() );
     }
 
-    public int [] doMagic( final int [] numbers )
+    public int [] doMagic( final int [] numbers ) throws Exception
     {
         final NumberMagicContext nmContext = new NumberMagicContext();
         nmContext.setInput( numbers );

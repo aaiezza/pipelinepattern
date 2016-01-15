@@ -9,12 +9,11 @@ package com.shaba.pipeline;
  */
 public class BaseError implements Error
 {
-    private final static String    DEFAULT_ERROR_CODE = "-100";
+    private final static String DEFAULT_ERROR_CODE = "-100";
 
-    private final String           errorCode;
-    private final String           errorDescription;
-    private final RuntimeException relatedException;
-
+    private final String        errorCode;
+    private final String        errorDescription;
+    private final Exception     relatedException;
 
     public BaseError( final String errorDescription )
     {
@@ -23,14 +22,20 @@ public class BaseError implements Error
 
     public BaseError( final String errorCode, final String errorDescription )
     {
-        this( errorCode, errorDescription, new RuntimeException( String.format( "%s : %s",
-            errorCode, errorDescription ) ) );
+        this( errorCode, errorDescription, new Exception( String.format( "%s : %s", errorCode,
+            errorDescription ) ) );
+    }
+
+    public BaseError( final String errorDescription, final Exception relatedException )
+    {
+        this( DEFAULT_ERROR_CODE, errorDescription, new Exception( String.format( "%s : %s",
+            DEFAULT_ERROR_CODE, errorDescription ) ) );
     }
 
     public BaseError(
         final String errorCode,
         final String errorDescription,
-        final RuntimeException relatedException )
+        final Exception relatedException )
     {
         this.errorCode = errorCode;
         this.errorDescription = errorDescription;
@@ -61,7 +66,7 @@ public class BaseError implements Error
      * @return an Exception object which is related to the error scenario
      */
     @Override
-    public RuntimeException getRelatedException()
+    public Exception getRelatedException()
     {
         return relatedException;
     }

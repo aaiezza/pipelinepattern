@@ -51,7 +51,7 @@ public class SequentialPipeline implements Pipeline
     }
 
     @Override
-    public void execute( final PipelineContext context )
+    public void execute( final PipelineContext context ) throws Exception
     {
         isFinished = false;
         /* execute the stages */
