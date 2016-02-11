@@ -13,7 +13,7 @@ public class HelloWorldSystemCall
     private final Pipeline csPipeline = new CancellableSequentialPipeline();
 
     {
-        csPipeline.addStage( new SystemCallStage( new File( "C:/" ), "ls", "-lAh" ) );
+        csPipeline.addStage( new SystemCallStage( new File( "C:/" ), "ls", "-lA", "-h" ) );
         csPipeline.addStage( new SystemCallStage( "echo", "Hello World!" ) );
     }
 
